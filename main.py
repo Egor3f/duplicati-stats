@@ -4,12 +4,9 @@ import re
 import sys
 import urllib
 from base64 import b64decode, b64encode
-from codecs import BOM_UTF8
 from datetime import datetime, timedelta
 from hashlib import sha256
-from logging import handlers
 from logging.handlers import RotatingFileHandler
-from typing import Union, List
 
 import click
 import requests
@@ -102,6 +99,8 @@ class Duplicati:
                 'id': int(backup['ID']),
                 'name': backup['Name'],
                 'size': int(backup['Metadata']['SourceFilesSize']),
+                'time_started': int(datetime.strptime(backup['Metadata']['LastBackupStarted'], '%Y%m%dT%H%M%SZ').timestamp()),
+                'time_finished': int(datetime.strptime(backup['Metadata']['LastBackupFinished'], '%Y%m%dT%H%M%SZ').timestamp()),
                 'duration': parse_time_duration(backup['Metadata']['LastBackupDuration']),
                 'count': int(backup['Metadata']['BackupListCount']),
             }
