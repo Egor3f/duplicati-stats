@@ -109,9 +109,6 @@ class Duplicati:
         print_json(True, {'backups': response})
 
 
-pass_client = click.make_pass_decorator(Duplicati, ensure=True)
-
-
 @click.group()
 @click.option('--server-url', required=True, help='Example: http://some.server.com:1234')
 @click.option('--password', required=True)
